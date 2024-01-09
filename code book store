@@ -1,0 +1,71 @@
+import tkinter as tk
+from tkinter import ttk
+
+class Book:
+    def __init__(self, title, author, price, summary):
+        self.title = title
+        self.author = author
+        self.price = price
+        self.summary = summary
+
+# Создаем несколько книг
+book1 = Book("Гарри Поттер", "Джоан Роулинг", 25.99, "Захватывающая книга о жизни одного известного волшебника.")
+book2 = Book("Винни Пух", "Алан Александр Милн", 19.99, "Приключения озорного медведя и его друзей.")
+book3 = Book("Война и мир", "Лев Толстой", 19.99, "Описывающий русское общество в эпоху войн против Наполеона.")
+book4 = Book("Крёстный отец", "Марио Пьюзо", 34.99, "Рассказывающий о жизни одного из могущественных мафиозных кланов Америки.")
+book5 = Book("Война миров", "Герберт Уэллс", 22.99, "Описывает вторжение пришельцев (марсиан) на Землю.")
+
+# Создаем словарь, где ключ - это название книги, а значение - объект Book
+bookstore = {
+    "Гарри Поттер": book1,
+    "Винни Пух": book2,
+    "Война и мир": book3,
+    "Крёстный отец": book4,
+    "Война миров": book5,
+}
+
+# Функция для отображения информации о книге в окне Tkinter
+def display_book_info(title):
+    if title in bookstore:
+        book = bookstore[title]
+        info_text.set(f"Название: {book.title}\nАвтор: {book.author}\nЦена: ${book.price}\nКраткое содержание: {book.summary}")
+    else:
+        info_text.set("Книга не найдена.")
+
+# Функция для обработки события нажатия кнопки
+def button_click():
+    selected_book = entry.get()
+    display_book_info(selected_book)
+
+# Создаем главное окно Tkinter
+root = tk.Tk()
+root.title("Книжный магазин")
+
+# Добавляем стиль
+style = ttk.Style()
+style.configure("TFrame", background="#ececec")
+style.configure("TLabel", background="#ececec", font=('Arial', 12))
+style.configure("TButton", background="black", font=('Arial', 12), foreground="black")
+
+# Изменяем размер окна
+root.geometry("800x600")
+
+# Создаем и размещаем виджеты
+frame = ttk.Frame(root, style="TFrame")
+frame.pack(padx=10, pady=10)
+
+label = ttk.Label(frame, text="Введите название книги:", style="TLabel")
+label.grid(row=0, column=0, pady=(0, 10))
+
+entry = ttk.Entry(frame)
+entry.grid(row=1, column=0, pady=(0, 10))
+
+button = ttk.Button(frame, text="Показать информацию", command=button_click, style="TButton")
+button.grid(row=2, column=0, pady=(0, 10))
+
+info_text = tk.StringVar()
+info_label = ttk.Label(frame, textvariable=info_text, style="TLabel", wraplength=400)
+info_label.grid(row=3, column=0, pady=(0, 10))
+
+# Запускаем главный цикл событий Tkinter
+root.mainloop()
